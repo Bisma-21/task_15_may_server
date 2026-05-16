@@ -3,6 +3,11 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { connectDB } from "./config/db.js";
+import authRoutes from "./routes/auth.js";
+import productsRoutes from "./routes/products.js";
+import dashboardRoutes from "./routes/dashboard.js";
+import settingsRoutes from "./routes/settings.js";
+import { notFound, errorHandler } from "./middleware/error.js";
 
 const app = express();
 
@@ -18,6 +23,11 @@ app.use(morgan("dev"));
 app.get("/api/health", (_req, res) =>
   res.json({ ok: true, service: "stockflow-server" }),
 );
+
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productsRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/settings", settingsRoutes);
 
 const port = Number(process.env.PORT) || 4000;
 
